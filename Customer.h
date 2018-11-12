@@ -61,7 +61,6 @@ private:
     /*added by us*/
     int firstOrder;
     int cheapestBvgId;
-
 };
 
 
@@ -77,6 +76,8 @@ private:
     /*added by us*/
     int lastBvgPrice;
     std::string BvgOrdered;
+    std::vector<std::string> bvgNamesVector;
+
 };
 
 
