@@ -129,26 +129,35 @@ std::string SpicyCustomer::toString() const {
 AlchoholicCustomer::AlchoholicCustomer(std::string name, int id) : Customer(name, id), lastBvgPrice(0),
                                                                    BvgOrdered("") {}
 
-/*TODO not sure about the find*/
+
 std::vector<int> AlchoholicCustomer::order(const std::vector<Dish> &menu) {
     vector<int> vector;
-    int bvgIndex(0);
+    int bvgId(0);
     int price(INT8_MAX);
-    bool found(false);
+    std::string currBvgName;
+    bool found(false); /*this will help us to find the cheapest in each iteration*/
     for (int i(0); i < menu.size(); ++i) {
-        if (menu[i].getType() == ALC) {
-            if (menu[i].getPrice() < price && menu[i].getPrice() >= lastBvgPrice &&
-                (!BvgOrdered.find("," + menu[i].getName()) + ",")) {
-                bvgIndex = i;
-                price = menu[i].getPrice();
-                found = true;
+        if (menu[i].getType() == ALC)
+            if (menu[i].getPrice() < price && menu[i].getPrice() >= lastBvgPrice) {
+                bool alreadyInVec(false);/*this means we already ordered that beverage*/
+                for (auto const &str:bvgNamesVector) {
+                    if (str == menu[i].getName()) {
+                        alreadyInVec = true;
+                        break;
+                    }
+                }
+                if (!alreadyInVec) {
+                    price = menu[i].getPrice();
+                    bvgId = menu[i].getId();
+                    currBvgName = menu[i].getName();
+                    found = true;
+                }
             }
-        }
-        if (found) {
-            lastBvgPrice = price;
-            BvgOrdered = BvgOrdered + "," + menu[bvgIndex].getName() + ",";
-            vector.push_back(menu[bvgIndex].getId());
-        }
+    }
+    if (found) {
+        bvgNamesVector.push_back(currBvgName);
+        lastBvgPrice = price;
+        vector.push_back(bvgId);
     }
     return vector;
 }
