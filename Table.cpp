@@ -38,7 +38,7 @@ Table &Table::operator=(const Table &otherTable) {
         return *this;
     }
 }
-/*TODO  move operator and move assigmnent operator*/
+
 /*Move Constructor*/
 Table::Table(Table &&otherTable) noexcept : capacity{otherTable.capacity}, open(otherTable.open),
                                             customersList(otherTable.customersList), orderList(otherTable.orderList) {
