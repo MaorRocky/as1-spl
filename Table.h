@@ -9,6 +9,7 @@ typedef std::pair<int, Dish> OrderPair;
 
 class Table {
 public:
+    //constructor
     Table(int t_capacity);
 
 //copy constructor
@@ -16,6 +17,15 @@ public:
 
 //destructor
     virtual ~Table();
+
+//assignment operator
+    Table &operator=(const Table &otherTable);
+
+    /*Move Constructor*/
+    Table(Table &&otherTable) noexcept;
+
+    /*Move Assignment operator*/
+    Table &operator=(Table &&otherTable) noexcept;
 
     int getCapacity() const;
 
