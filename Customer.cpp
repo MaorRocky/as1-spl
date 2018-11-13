@@ -129,7 +129,6 @@ std::string SpicyCustomer::toString() const {
 AlchoholicCustomer::AlchoholicCustomer(std::string name, int id) : Customer(name, id), lastBvgPrice(0),
                                                                    BvgOrdered("") {}
 
-
 std::vector<int> AlchoholicCustomer::order(const std::vector<Dish> &menu) {
     vector<int> vector;
     int bvgId(0);
