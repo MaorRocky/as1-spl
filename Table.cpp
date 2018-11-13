@@ -2,7 +2,6 @@
 #include <vector>
 #include "Customer.h"
 #include "Dish.h"
-/*TODO move constructor copy assignment operator*/
 using namespace std;
 
 /*Constructor*/
@@ -22,6 +21,50 @@ Table::~Table() {
         delete customersList[i];
     }
 }
+
+/*Copy Assignment Operator*/
+Table &Table::operator=(const Table &otherTable) {
+    if (this != &otherTable) {
+        capacity = otherTable.capacity;
+        open = otherTable.open;
+        for (int i(0); i < customersList.size(); ++i) {
+            delete customersList[i];
+        }
+        customersList.clear();/*TODO we might need to assign memory on the heap*/
+        for (int j(0); j < otherTable.customersList.size(); ++j) {
+            customersList.push_back(otherTable.customersList[j]);
+        }
+        orderList = otherTable.orderList;
+        return *this;
+    }
+}
+/*TODO  move operator and move assigmnent operator*/
+/*Move Constructor*/
+Table::Table(Table &&otherTable) noexcept : capacity{otherTable.capacity}, open(otherTable.open),
+                                            customersList(otherTable.customersList), orderList(otherTable.orderList) {
+    for (int i(0); i < otherTable.customersList.size(); ++i) {
+        otherTable.customersList[i] = nullptr;
+    }
+}
+
+
+/*Move Assignment Operator*/
+Table &Table::operator=(Table &&otherTable) noexcept {
+    if (this != &otherTable) {
+        capacity = otherTable.capacity;
+        open = otherTable.open;
+        orderList = otherTable.orderList;
+        for (auto &thisCustomer : customersList) {
+            delete thisCustomer;
+        }
+        customersList = otherTable.customersList;
+        for (auto &customer:otherTable.customersList) {
+            customer = nullptr;
+        }
+        return *this;
+    }
+}
+
 
 bool Table::isOpen() {
     return open;
